@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <script src="js/jquery-3.4.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/main.js"></script>
+    <title>Title</title>
+</head>
+<body>
+<h1>Список отправлений</h1>
+<div>
+    <a href="#" onclick="loadData();"> Загрузить данные</a>
+</div>
+<div>
+    <span class="alert-danger" id="alert"></span>
+</div>
+<div>
+    <!--Table-->
+    <table id="tableReport" class="table">
+        <!--Table head-->
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Тип отправления</th>
+            <th>Дата отправления</th>
+        </tr>
+        </thead>
+        <!--Table head-->
+        <!--Table body-->
+        <tbody>
+        </tbody>
+        <!--Table body-->
+    </table>
+    <!--Table-->
+</div>
+</body>
+</html>

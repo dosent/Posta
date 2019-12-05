@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css">
     <script src="js/jquery-3.4.1.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table-ru-RU.min.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="js/main.js"></script>
     <title>Title</title>
@@ -18,7 +20,21 @@
     <span class="alert-danger" id="alert"></span>
 </div>
 <div>
+    <!-- Dynamic Tables-->
+    <table id="dynamicTableReport" class="table" data-toggle="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th style="width: 1%"></th>
+            <th>ШПИ</th>
+            <th>Куда</th>
+            <th>Кому</th>
+            <th>Сумма руб.(НДС руб.)</th>
+        </tr>
+        </thead>
+    </table>
     <!--Table-->
+    <!--<table id="tableReport" class="table" data-toggle="table">-->
     <table id="tableReport" class="table">
         <!--Table head-->
         <thead>
@@ -26,9 +42,9 @@
             <th>#</th>
             <th style="width: 1%"></th>
             <th>ШПИ</th>
-            <th>Откуда</th>
             <th>Куда</th>
-            <th>Сумма</th>
+            <th>Кому</th>
+            <th>Сумма руб.(НДС руб.)</th>
         </tr>
         </thead>
         <!--Table head-->

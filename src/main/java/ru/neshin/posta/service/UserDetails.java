@@ -26,9 +26,7 @@ public class UserDetails implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
         User.UserBuilder builder = org.springframework.security.core.userdetails.User.withUsername(username);
-        LOG.info(user.getPassword());
         String encode = new BCryptPasswordEncoder().encode(user.getPassword());
-        LOG.info(user.getPassword()+" ,"+encode);
         builder.password(user.getPassword());
         builder.disabled(user.isEnabled());
         builder.roles(user.getUserRole().getName());

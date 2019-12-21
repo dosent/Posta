@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
@@ -26,7 +27,7 @@ import java.util.Optional;
 public class ArchiveService {
 
     public static final String URL_ARCHIVE = "https://otpravka-api.pochta.ru/1.0/archive";
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());;
     private static final Logger LOGGER = LoggerFactory.getLogger(ArchiveService.class);
 
     private ArchiveDao archiveDao;

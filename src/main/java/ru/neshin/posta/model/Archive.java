@@ -1,24 +1,26 @@
 package ru.neshin.posta.model;
 
 import lombok.Data;
+import ru.neshin.posta.annotations.IncludeHash;
+import ru.neshin.posta.annotations.IncludeHashDelegator;
 import ru.neshin.posta.model.enums.BatchStatus;
+import ru.neshin.posta.model.enums.CategoryMail;
 import ru.neshin.posta.model.enums.MethodPay;
+import ru.neshin.posta.model.enums.RankMail;
+import ru.neshin.posta.model.enums.TypeMail;
+import ru.neshin.posta.model.listeners.ArchiveEntityListeners;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.List;
 
 @Data
 @Entity
-@Table(name = "archive")
-public class Archive {
+@EntityListeners(ArchiveEntityListeners.class)
+@Table(name = "archive",
+        indexes = {@Index(name = "idx_custom_hash", columnList = "custom_hash")})
+public class Archive implements IncludeHashDelegator {
     @Id
     @GeneratedValue
     @Column(name = "archive_id", nullable = false)
@@ -27,6 +29,7 @@ public class Archive {
     /**
      * Номер партии
      */
+    @IncludeHash
     @Column(name = "batch_name", nullable = false)
     private String batchName;
 
@@ -34,6 +37,7 @@ public class Archive {
      * Статусы партии
      */
     @Column(name="batch_status")
+    @IncludeHash
     private BatchStatus batchStatus;
 
     /**
@@ -71,4 +75,57 @@ public class Archive {
      */
     @Column(name = "delivery_notice_payment_method")
     MethodPay deliveryNoticeMethodPay;
+
+    /**
+     * Категория регистрируемого почтового отправления (РПО)
+     */
+    @Column(name = "mail_category")
+    private CategoryMail categoryMail;
+
+    /**
+     * Дата документа для сдачи партии
+     */
+    @Column(name = "list_number_date")
+    private ZonedDateTime dateListNumber;
+
+    /**
+     * Номер документа для сдачи партии
+     */
+    @Column(name="list_number")
+    private Integer listNumber;
+
+    /**
+     * Признак международной почты
+     */
+    @Column(name = "is_international")
+    private boolean international;
+
+    /**
+     * Способ оплаты
+     */
+    @Column(name="payment_method")
+    private MethodPay paymentMethod;
+
+    /**
+     * Строка (Опционально) что за оплата нодо посмотреть
+     * Способ оплаты
+     */
+    @Column(name = "notice_payment_method")
+    private MethodPay noticePaymentMethod;
+
+    /**
+     * Разряд письма
+     */
+    @Column(name = "mail_rank")
+    private RankMail rankMail;
+
+    /**
+     * Вид регистрируемоего почтового отправления РПО
+     */
+    @Column(name="mail_type")
+    private TypeMail typeMail;
+
+    @Column(name = "custom_hash")
+    private  String hash;
+
 }

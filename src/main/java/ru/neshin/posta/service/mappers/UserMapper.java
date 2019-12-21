@@ -1,8 +1,7 @@
 package ru.neshin.posta.service.mappers;
 
-import dto.UserDto;
+import ru.neshin.posta.dto.UserDto;
 import org.mapstruct.Mapper;
-import org.mapstruct.MapperConfig;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.ReportingPolicy;

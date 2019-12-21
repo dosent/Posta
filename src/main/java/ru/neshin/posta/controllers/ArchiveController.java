@@ -1,6 +1,6 @@
 package ru.neshin.posta.controllers;
 
-import dto.ArchiveDto;
+import ru.neshin.posta.dto.ArchiveDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

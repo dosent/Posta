@@ -1,6 +1,6 @@
 package ru.neshin.posta.service;
 
-import dto.UserDto;
+import ru.neshin.posta.dto.UserDto;
 import ru.neshin.posta.service.mappers.UserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

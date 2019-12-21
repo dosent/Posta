@@ -10,5 +10,7 @@ import java.util.Optional;
 public interface ArchiveDao extends CrudRepository<Archive, Long> {
     Optional<Archive> findById(Long id);
 
+    Optional<Archive> findFirstByHash(String hash);
+
     Optional<Archive> findByBatchName(String batch);
 }

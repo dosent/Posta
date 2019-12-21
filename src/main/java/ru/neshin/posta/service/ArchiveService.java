@@ -1,20 +1,14 @@
 package ru.neshin.posta.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dto.ArchiveDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.web.client.RestOperations;
-import org.springframework.web.client.RestTemplate;
 import ru.neshin.posta.service.clients.PochtaRestTemplate;
 import ru.neshin.posta.service.mappers.ArchiveMapper;
 import lombok.Data;
@@ -24,14 +18,14 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.neshin.posta.configuration.PostaRunTimeException;
 import ru.neshin.posta.dao.ArchiveDao;
 import ru.neshin.posta.model.Archive;
-
-import java.util.Collections;
+import ru.neshin.posta.dto.ArchiveDto;
 import java.util.Optional;
 
 @Data
 @Service
 public class ArchiveService {
 
+    public static final String URL_ARCHIVE = "https://otpravka-api.pochta.ru/1.0/archive";
     private final ObjectMapper objectMapper = new ObjectMapper();
     private static final Logger LOGGER = LoggerFactory.getLogger(ArchiveService.class);
 
@@ -48,16 +42,15 @@ public class ArchiveService {
     @Transactional
     public ArchiveDto getId(Long id) {
         Optional<Archive> archive = archiveDao.findById(id);
-        ArchiveDto result = ArchiveMapper.INSTANCE.archiveToArchiveDro(
+        ArchiveDto result = ArchiveMapper.INSTANCE.archiveToArchiveDto(
                 archive.orElseThrow(() -> new PostaRunTimeException()));
         return result;
     }
 
-
+    @Transactional
     public void updateArchiveFromPochtaRu() {
-        String uri = "https://otpravka-api.pochta.ru/1.0/archive";
+        String uri = URL_ARCHIVE;
         ResponseEntity<String> response = restTemplate.exchangePochta(uri, HttpMethod.GET, String.class);
-        System.out.println("Result - status ("+ response.getStatusCode() + ") has body: " + response.getBody());
         if (HttpStatus.OK == response.getStatusCode()) {
             try {
                 JsonNode actualObj = objectMapper.readTree(response.getBody());
@@ -68,8 +61,17 @@ public class ArchiveService {
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    protected void mergeArchive(JsonNode batch) {
-
+    private void mergeArchive(JsonNode batch) {
+        try {
+            ArchiveDto archiveDto = objectMapper
+                    .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                    .readValue(batch.toString(), ArchiveDto.class);
+            if (!archiveDao.findFirstByHash(archiveDto.getCustomHash()).isPresent()) {
+                archiveDao.save(ArchiveMapper.INSTANCE.archiveDtoToArchive(archiveDto));
+            }
+        } catch (Throwable e) {
+            LOGGER.error("Ошибка обработки: " + batch.toString());
+            LOGGER.error("Error: " + e.getMessage());
+        }
     }
 }

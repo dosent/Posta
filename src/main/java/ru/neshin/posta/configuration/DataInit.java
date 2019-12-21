@@ -10,6 +10,7 @@ import ru.neshin.posta.dao.RoleDao;
 import ru.neshin.posta.dao.UserDao;
 import ru.neshin.posta.model.UserModel;
 import ru.neshin.posta.model.UserRole;
+import ru.neshin.posta.service.schedules.ScheduledTasks;
 
 import java.util.Date;
 
@@ -22,6 +23,9 @@ public class DataInit implements ApplicationRunner {
 
     @Autowired
     private RoleDao roleDao;
+
+    @Autowired
+    ScheduledTasks scheduledTasks;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -37,5 +41,6 @@ public class DataInit implements ApplicationRunner {
             user.setUserRole(userRole);
             userDao.save(user);
         }
+        scheduledTasks.reportCurrentTime();
     }
 }

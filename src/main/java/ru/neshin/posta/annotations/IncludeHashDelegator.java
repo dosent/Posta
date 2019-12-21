@@ -20,7 +20,7 @@ public interface IncludeHashDelegator {
                         result.append("=");
                         field.setAccessible(true);
                         Object obj = field.get(this);
-                        result.append(obj.toString());
+                        result.append(obj != null ? obj.toString() : "NULL");
                         field.setAccessible(false);
                         System.out.println(result.toString());
                         System.out.println(org.apache.commons.codec.digest.DigestUtils.md5Hex(result.toString()).toUpperCase());

@@ -12,7 +12,7 @@ import ru.neshin.posta.model.listeners.ArchiveEntityListeners;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -37,6 +37,7 @@ public class Archive implements IncludeHashDelegator {
      * Статусы партии
      */
     @Column(name="batch_status")
+    @Enumerated(EnumType.STRING)
     @IncludeHash
     private BatchStatus batchStatus;
 
@@ -49,8 +50,10 @@ public class Archive implements IncludeHashDelegator {
     /**
      * Дата обновления статуса
      */
-    @Column(name = "batch_status_date")
-    private ZonedDateTime dateUpdateStatus;
+
+    @Column(name = "batch_status_date", columnDefinition = "TIMESTAMP")
+    @IncludeHash
+    private LocalDateTime dateUpdateStatus;
 
     /**
      * Идентификатор подразделения
@@ -62,31 +65,33 @@ public class Archive implements IncludeHashDelegator {
      * Плата за услугу "Курьерский сбор" с НДС
      */
     @Column(name = "courier_call_rate_with_vat")
-    BigDecimal courierCallRateWithVat = BigDecimal.ZERO;
+    private BigDecimal courierCallRateWithVat = BigDecimal.ZERO;
 
     /**
      * Плата за услугу "Курьерский сбор" без НДС
      */
     @Column(name = "courier_call_rate_wo_vat")
-    BigDecimal courierCallWithOutVat = BigDecimal.ZERO;
+    private BigDecimal courierCallWithOutVat = BigDecimal.ZERO;
 
     /**
      * delivery-notice-payment-method
      */
     @Column(name = "delivery_notice_payment_method")
-    MethodPay deliveryNoticeMethodPay;
+    @Enumerated(EnumType.STRING)
+    private MethodPay deliveryNoticeMethodPay;
 
     /**
      * Категория регистрируемого почтового отправления (РПО)
      */
     @Column(name = "mail_category")
+    @Enumerated(EnumType.STRING)
     private CategoryMail categoryMail;
 
     /**
      * Дата документа для сдачи партии
      */
-    @Column(name = "list_number_date")
-    private ZonedDateTime dateListNumber;
+    @Column(name = "list_number_date", columnDefinition = "TIMESTAMP")
+    private LocalDateTime dateListNumber;
 
     /**
      * Номер документа для сдачи партии
@@ -104,6 +109,7 @@ public class Archive implements IncludeHashDelegator {
      * Способ оплаты
      */
     @Column(name="payment_method")
+    @Enumerated(EnumType.STRING)
     private MethodPay paymentMethod;
 
     /**
@@ -111,6 +117,7 @@ public class Archive implements IncludeHashDelegator {
      * Способ оплаты
      */
     @Column(name = "notice_payment_method")
+    @Enumerated(EnumType.STRING)
     private MethodPay noticePaymentMethod;
 
     /**
@@ -123,6 +130,7 @@ public class Archive implements IncludeHashDelegator {
      * Вид регистрируемоего почтового отправления РПО
      */
     @Column(name="mail_type")
+    @Enumerated(EnumType.STRING)
     private TypeMail typeMail;
 
     @Column(name = "custom_hash")

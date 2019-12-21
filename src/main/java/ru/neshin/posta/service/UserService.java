@@ -1,18 +1,11 @@
 package ru.neshin.posta.service;
 
-import dto.UserDto;
-import dto.UserMapper;
+import ru.neshin.posta.dto.UserDto;
+import ru.neshin.posta.service.mappers.UserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import ru.neshin.posta.configuration.PostaRunTimeException;
 import ru.neshin.posta.dao.UserDao;
 import ru.neshin.posta.model.UserModel;
@@ -22,10 +15,13 @@ import java.util.List;
 @Service
 public class UserService {
 
-    @Autowired
-    private UserDao userDao;
+    private final UserDao userDao;
 
-    private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
+
+    public UserService(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Transactional
     public List<UserDto> getAllUsers(){
@@ -34,7 +30,7 @@ public class UserService {
         try {
             userDtos = UserMapper.INSTANCE.userToUserDto(allUsers);
         } catch (Throwable t) {
-            LOG.error("Error UserService.getAllUsers()",t);
+            LOGGER.error("Error UserService.getAllUsers()",t);
             throw new PostaRunTimeException();
         };
         return userDtos;

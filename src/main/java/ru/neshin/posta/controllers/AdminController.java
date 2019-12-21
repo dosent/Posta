@@ -1,24 +1,28 @@
 package ru.neshin.posta.controllers;
 
+import ru.neshin.posta.dto.UserDto;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RestController;
 import ru.neshin.posta.service.UserService;
 
-@Controller
+import java.util.List;
+
+@RestController
+@Api(tags = "Users", description = "Users management / Управление пользователями")
 @Secured({"ADMIN"})
 public class AdminController {
     @Autowired
     UserService userService;
 
     @GetMapping("/admin/users")
-    ModelAndView index(Model model) {
-        ModelAndView modelAndView = new ModelAndView("admin/users");
-        modelAndView.addObject("users", userService.getAllUsers());
-        return modelAndView;
+    @ApiOperation(value = "Get all users / Получить всех пользователей")
+    public List<UserDto> index(Model model) {
+        return userService.getAllUsers();
     }
 
 }

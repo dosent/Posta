@@ -1,4 +1,4 @@
-package ru.neshin.posta.model;
+package ru.neshin.posta.model.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

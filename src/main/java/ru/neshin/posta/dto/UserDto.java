@@ -1,4 +1,4 @@
-package dto;
+package ru.neshin.posta.dto;
 
 import lombok.Data;
 

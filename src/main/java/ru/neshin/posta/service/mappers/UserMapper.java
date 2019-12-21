@@ -1,14 +1,16 @@
-package dto;
+package ru.neshin.posta.service.mappers;
 
+import ru.neshin.posta.dto.UserDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 import ru.neshin.posta.model.UserModel;
 
 import java.util.List;
 
-@Mapper
+@Mapper(unmappedSourcePolicy = ReportingPolicy.WARN)
 public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
@@ -17,7 +19,7 @@ public interface UserMapper {
             @Mapping(source = "name", target = "name"),
             @Mapping(source = "enabled", target = "enabled"),
             @Mapping(source = "password", target = "password"),
-            @Mapping(source = "id", target = "user_id")
+            @Mapping(source = "id", target = "user_id"),
     })
     UserDto userToUserDto(UserModel user);
 

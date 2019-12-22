@@ -284,12 +284,14 @@ public class Archive implements IncludeHashDelegator {
      * Категория уведомления о вручении РПО.
      */
     @Column(name = "shipping_notice_type")
+    @Enumerated(EnumType.STRING)
     private CategoryNotice shippingNoticeType;
 
     /**
      * Вид транспортировки
      */
     @Column(name = "transport_type")
+    @Enumerated(EnumType.STRING)
     private TransportType transportType;
 
     /**

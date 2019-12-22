@@ -18,17 +18,21 @@ import java.util.Date;
 @Data
 public class DataInit implements ApplicationRunner {
 
-    @Autowired
     private UserDao userDao;
 
-    @Autowired
     private RoleDao roleDao;
 
+    private ScheduledTasks scheduledTasks;
+
     @Autowired
-    ScheduledTasks scheduledTasks;
+    public DataInit(UserDao userDao, RoleDao roleDao, ScheduledTasks scheduledTasks) {
+        this.userDao = userDao;
+        this.roleDao = roleDao;
+        this.scheduledTasks = scheduledTasks;
+    }
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         if (userDao.count() == 0) {
             roleDao.deleteAll();
             UserRole userRole = new UserRole();

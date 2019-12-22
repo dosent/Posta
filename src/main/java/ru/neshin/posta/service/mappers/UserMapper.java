@@ -12,6 +12,7 @@ import java.util.List;
 
 @Mapper(unmappedSourcePolicy = ReportingPolicy.WARN)
 public interface UserMapper {
+
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
     @Mappings({

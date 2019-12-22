@@ -16,8 +16,12 @@ import java.util.List;
 @Api(tags = "Users", description = "Users management / Управление пользователями")
 @Secured({"ADMIN"})
 public class AdminController {
-    @Autowired
-    UserService userService;
+
+    private UserService userService;
+
+    public AdminController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/admin/users")
     @ApiOperation(value = "Get all users / Получить всех пользователей")

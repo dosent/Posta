@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import static java.util.Objects.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
@@ -27,25 +27,29 @@ import java.util.Optional;
 public class ArchiveService {
 
     public static final String URL_ARCHIVE = "https://otpravka-api.pochta.ru/1.0/archive";
-    private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ArchiveService.class);
+
+    private final ArchiveMapper archiveMapper = ArchiveMapper.INSTANCE;
 
     private ArchiveDao archiveDao;
 
     private PochtaRestTemplate restTemplate;
 
+    private ObjectMapper objectMapper;
+
     @Autowired
-    public ArchiveService(ArchiveDao archiveDao, PochtaRestTemplate restTemplate) {
+    public ArchiveService(ArchiveDao archiveDao, PochtaRestTemplate restTemplate, ObjectMapper objectMapper) {
         this.archiveDao = archiveDao;
         this.restTemplate = restTemplate;
+        this.objectMapper = objectMapper;
     }
 
     @Transactional
     public ArchiveDto getId(Long id) {
         Optional<Archive> archive = archiveDao.findById(id);
-        ArchiveDto result = ArchiveMapper.INSTANCE.archiveToArchiveDto(
-                archive.orElseThrow(() -> new PostaRunTimeException()));
-        return result;
+        return archiveMapper.archiveToArchiveDto(
+                archive.orElseThrow(PostaRunTimeException::new));
     }
 
     @Transactional
@@ -54,8 +58,8 @@ public class ArchiveService {
         ResponseEntity<String> response = restTemplate.exchangePochta(uri, HttpMethod.GET, String.class);
         if (HttpStatus.OK == response.getStatusCode()) {
             try {
-                JsonNode actualObj = objectMapper.readTree(response.getBody());
-                actualObj.forEach(batch -> mergeArchive(batch));
+                objectMapper.readTree(requireNonNull(response.getBody()))
+                        .forEach(this::mergeArchive);
             } catch (JsonProcessingException e) {
                 LOGGER.error("Не могу достучаться до " + uri);
             }
@@ -68,7 +72,7 @@ public class ArchiveService {
                     .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                     .readValue(batch.toString(), ArchiveDto.class);
             if (!archiveDao.findFirstByHash(archiveDto.getCustomHash()).isPresent()) {
-                archiveDao.save(ArchiveMapper.INSTANCE.archiveDtoToArchive(archiveDto));
+                archiveDao.save(archiveMapper.archiveDtoToArchive(archiveDto));
             }
         } catch (Throwable e) {
             LOGGER.error("Ошибка обработки: " + batch.toString());

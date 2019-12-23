@@ -1,20 +1,41 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+<html lang="ru" class="no-js" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head>
-    <title>Авторизация</title>
-</head>
-<body>
-<div th:if="${param.error}">
-    Неверный пароль или имя пользователя.
+<!-- BEGIN HEAD -->
+<head th:insert="~{commons/head::copy}"/>
+
+<!-- BODY -->
+<body id="body" data-spy="scroll" data-target=".header">
+<div th:insert="~{commons/header::copy}"/>
+<div class="jumbotron"></div>
+<!--========== PAGE LAYOUT ==========-->
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-3">
+            <form th:action="@{/login}" method="post">
+                <h1 class="heading">Авторизация</h1>
+                <div class="form-group">
+                    <label for="inputLogin">Имя пользователя :</label>
+                    <input class="form-control" type="text" id="inputLogin" placeholder="имя пользователя"
+                           name="username"/>
+                    <!--  </div>
+                      <div class="form-group">-->
+                    <label for="inputPassword">Пароль:</label>
+                    <input class="form-control" id="inputPassword" type="password" placeholder="пароль"
+                           name="password"/>
+                </div>
+                <button type="submit" class="btn btn-primary">Войти</button>
+                <a href="#" class="btn btn-secondary btn-lg" role="button" aria-pressed="true">Регистрация</a>
+            </form>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
 </div>
-<div th:if="${param.logout}">
-    Вы вышли из системы.
-</div>
-<form th:action="@{/login}" method="post">
-    <div><label> Имя пользователя : <input type="text" placeholder="имя пользователя" name="username"/> </label></div>
-    <div><label> Пароль: <input type="password" placeholder="пароль" name="password"/> </label></div>
-    <div><input type="submit" value="Sign In"/></div>
-</form>
+<!--========== END PAGE LAYOUT ==========-->
+<div th:insert="~{commons/footer::copy}"></div>
+<div th:insert="~{commons/js-includes::copy}"></div>
+<!-- END BODY -->
 </body>
 </html>

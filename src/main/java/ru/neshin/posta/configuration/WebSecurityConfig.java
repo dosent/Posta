@@ -45,9 +45,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
+                .defaultSuccessUrl("/index", true)
                 .permitAll()
                 .and()
                 .logout()
+                .logoutUrl("/logout")
                 .permitAll();
     }
 
@@ -68,5 +70,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void completeSetup() {
         userDetailsService = getApplicationContext().getBean(UserDetails.class);
     }
+
 
 }

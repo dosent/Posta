@@ -23,19 +23,30 @@
                     <!-- End Logo -->
                 </div>
 
+                <p class="navbar-text" th:inline="text" th:if="${#httpServletRequest.remoteUser}"><br>Пользователь:<br>[[${#httpServletRequest.remoteUser}]]</p>
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse nav-collapse">
                     <div class="menu-container">
                         <ul class="nav navbar-nav navbar-nav-right">
-                            <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="#body">Главная</a>
+                            <li class="js_nav-item nav-item">
+                                <a class="nav-item-child nav-item-hover" href="/">Главная</a>
                             </li>
-                            <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="#about">Отправления</a>
+                            <li class="js_nav-item nav-item">
+                                <a class="nav-item-child nav-item-hover" href="/report">Отправления</a>
                             </li>
-                            <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover"
-                                                                href="#experience">Отчеты</a></li>
-                            <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="#work">Помошь</a>
+                            <li class="js_nav-item nav-item">
+                                <a class="nav-item-child nav-item-hover" href="#experience">Отчеты</a></li>
+                            <li class="js_nav-item nav-item">
+                                <a class="nav-item-child nav-item-hover" href="/help">Помошь</a>
                             </li>
-                            <li class="js_nav-item nav-item"><a class="nav-item-child nav-item-hover" href="#contact">Контакты</a>
+                            <li class="js_nav-item nav-item">
+                                <a class="nav-item-child nav-item-hover" href="/#contact">Контакты</a>
+                            </li>
+                            <li class="js_nav-item nav-item" th:unless="${#httpServletRequest.remoteUser}">
+                                <a class="nav-item-child nav-item-hover" href="/login">Вход</a>
+                            </li>
+                            <li class="js_nav-item nav-item" th:if="${#httpServletRequest.remoteUser}">
+                                <a class="nav-item-child nav-item-hover" href="/logout">Выход</a>
                             </li>
                         </ul>
                     </div>

@@ -1,33 +1,14 @@
 <!DOCTYPE html>
 <html lang="ru" class="no-js" xmlns:th="http://www.thymeleaf.org">
     <!-- BEGIN HEAD -->
-    <head>
-        <meta charset="utf-8"/>
-        <title>Докуметовод & помошник</title>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta content="width=device-width, initial-scale=1" name="viewport"/>
-        <meta content="" name="description"/>
-        <meta content="Neshin Ivan" name="author"/>
-        <!-- GLOBAL MANDATORY STYLES -->
-        <link href="http://fonts.googleapis.com/css?family=Hind:300,400,500,600,700" rel="stylesheet" type="text/css">
-        <link href="../vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css"/>
-        <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-        <!-- PAGE LEVEL PLUGIN STYLES -->
-        <link href="../css/animate.css" rel="stylesheet">
-        <link href="../vendor/swiper/css/swiper.min.css" rel="stylesheet" type="text/css"/>
-        <!-- THEME STYLES -->
-        <link href="../css/layout.min.css" rel="stylesheet" type="text/css"/>
-        <!-- Favicon -->
-        <link rel="shortcut icon" href="../img/favicon.ico"/>
-    </head>
-    <!-- END HEAD -->
+    <head th:insert="~{commons/head::copy}"/>
 
     <!-- BODY -->
     <body id="body" data-spy="scroll" data-target=".header">
     <div th:insert="~{commons/header::copy}"></div>
     <div th:insert="~{blocks/slider::copy}"></div>
         <!--========== PAGE LAYOUT ==========-->
-        <div th:insert="~{blocks/slider::copy}"></div>
+        <div th:insert="~{blocks/promo-banner::copy}"></div>
         <div th:insert="~{blocks/contact::copy}"></div>
         <!--========== END PAGE LAYOUT ==========-->
     <div th:insert="~{commons/footer::copy}"></div>
